@@ -86,7 +86,8 @@
         "scripts/baekjoon/parsing.js",
         "scripts/baekjoon/util.js",
         "scripts/baekjoon/uploadfunctions.js",
-        "scripts/baekjoon/baekjoon.js"
+        "scripts/baekjoon/blog_mode.js",
+        "scripts/baekjoon/baekjoon.js"  
       ],
       "run_at": "document_idle"
     },

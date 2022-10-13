@@ -1,5 +1,5 @@
 // Set to true to enable console log
-const debug = false;
+const debug = true;
 
 /* 
   문제 제출 맞음 여부를 확인하는 함수
@@ -13,22 +13,35 @@ if (debug) console.log(currentUrl);
 // 문제 제출 사이트의 경우에는 로더를 실행하고, 유저 페이지의 경우에는 버튼을 생성한다.
 // 백준 사이트 로그인 상태이면 username이 있으며, 아니면 없다.
 const username = findUsername();
-if (!isNull(username)) {
-  if (['status', `user_id=${username}`, 'problem_id', 'from_mine=1'].every((key) => currentUrl.includes(key))) startLoader();
-  else if (currentUrl.match(/\.net\/problem\/\d+/) !== null) parseProblemDescription();
-  else if (currentUrl.includes('.net/user')) {
-    getStats().then((stats) => {
-      if (!isEmpty(stats.version) && stats.version === getVersion()) {
-        if (findUsernameOnUserInfoPage() === username) {
-          insertUploadAllButton();
-          insertDownloadAllButton();
+
+// 로컬에서 blog_mode 호출하기위해 async
+(async function() {
+  let isBlogMode = await getObjectFromLocalStorage('blog_mode');
+  
+  if (!isNull(username)) {
+    if (['status', `user_id=${username}`, 'problem_id', 'from_mine=1'].every((key) => currentUrl.includes(key))) {
+      //블로그모드이면 b_startLoader, 아니면 기존로직
+      console.log(isBlogMode)
+      if(isBlogMode === true) b_startLoader();
+      else startLoader();
+    }
+    else if (currentUrl.match(/\.net\/problem\/\d+/) !== null) parseProblemDescription();
+    else if (currentUrl.includes('.net/user')) {
+      getStats().then((stats) => {
+        if (!isEmpty(stats.version) && stats.version === getVersion()) {
+          if (findUsernameOnUserInfoPage() === username) {
+            //블로그모드 분기
+            if(isBlogMode === true) b_insertUploadAllButton();
+            else insertUploadAllButton();
+            insertDownloadAllButton();
+          }
+        } else {
+          versionUpdate();
         }
-      } else {
-        versionUpdate();
-      }
-    });
+      });
+    }
   }
-}
+})();
 
 function startLoader() {
   loader = setInterval(async () => {
