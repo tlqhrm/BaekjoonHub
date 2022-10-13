@@ -9,6 +9,9 @@ let loader;
 
 const currentUrl = window.location.href;
 
+// 사이트 식별
+const thisStie = "프로그래머스";
+
 // 프로그래머스 연습 문제 주소임을 확인하고, 맞다면 로더를 실행
 // 블로그모드라면 b_startLoader, 아니면 기존로직
 (async function() {

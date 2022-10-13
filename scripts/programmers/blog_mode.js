@@ -48,15 +48,15 @@ async function b_parseData() {
 
 async function b_makeData(origin) {
   const { problem_description, problemId, level, result_message, division, language_extension, title, runtime, memory, code } = origin;
-  const directory = `_posts/프로그래머스/${level}/${problemId}. ${convertSingleCharToDoubleChar(title)}`;
+  const directory = `_posts/${thisStie}/${level}/${problemId}. ${convertSingleCharToDoubleChar(title)}`;
   const message = `[${level.replace('lv', 'level ')}] Title: ${title}, Time: ${runtime}, Memory: ${memory} -BaekjoonHub`;
   const fileName = `${convertSingleCharToDoubleChar(title)}.${language_extension}`;
-  const postName = `${getyymmdd('-')}-백준${problemId}.md`;
+  const postName = `${getyymmdd('-')}-${thisStie}${problemId}.md`;
   // prettier-ignore
   const content = `---\n`
-    + `title: '[프로그래머스] ${problemId}번: ${title}(${language_extension})' \n`
+    + `title: '[${thisStie}] ${problemId}번: ${title}(${language_extension})' \n`
     + `date: ${getyyMMddhhmmss('-')}\n`
-    + `categories: [알고리즘, 프로그래머스] \n`
+    + `categories: [${thisStie},${level}] \n`
     + `tags: [${division.split('/')}] \n`
     + `---\n\n`
     + `# [${level}] ${title} - ${problemId} \n\n`

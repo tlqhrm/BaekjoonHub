@@ -152,7 +152,8 @@ function parsingResultTableList(doc) {
         case 'submissionTime':
           const el = x.querySelector('a.show-date');
           if (isNull(el)) return null;
-          return el.getAttribute('data-original-title');
+          // submissionTime이 코드 전부업로드시 'data-original-title' 이 아니라 'title'에 저장되어 코드 추가했습니다.
+          return el.getAttribute('data-original-title') || el.getAttribute('title');
         case 'problemId':
           const el2 = x.querySelector('a.problem_title');
           if (isNull(el2)) return null;
@@ -402,7 +403,7 @@ async function findResultTableListByUsername(username) {
     if (next_page !== null) doc = await findHtmlDocumentByUrl(next_page.getAttribute('href'));
   } while ((next_page = doc.getElementById('next_page')) !== null);
   result.push(...parsingResultTableList(doc));
-
+  console.log(result);
   return result;
 }
 

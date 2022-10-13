@@ -10,6 +10,9 @@ let loader;
 const currentUrl = window.location.href;
 if (debug) console.log(currentUrl);
 
+// 사이트 식별
+const thisStie = "백준";
+
 // 문제 제출 사이트의 경우에는 로더를 실행하고, 유저 페이지의 경우에는 버튼을 생성한다.
 // 백준 사이트 로그인 상태이면 username이 있으며, 아니면 없다.
 const username = findUsername();

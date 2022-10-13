@@ -85,20 +85,19 @@ function b_makeDetailMessageAndReadme(data) {
   const { problemId, submissionTime, title, level, tags,
     problem_description, problem_input, problem_output,
     code, language, memory, runtime } = data;
-
-  const directory = `_posts/백준/${level.replace(/ .*/, '')}/${problemId}. ${convertSingleCharToDoubleChar(title)}`;
+  const directory = `_posts/${thisStie}/${level.replace(/ .*/, '')}/${problemId}. ${convertSingleCharToDoubleChar(title)}`;
   const message = `[${level}] Title: ${title}, Time: ${runtime} ms, Memory: ${memory} KB -BaekjoonHub`;
   const tagl = [];
   tags.forEach((tag) => tagl.push(`${categories[tag.key]}(${tag.key})`));
   const category = tagl.join(', ');
   const fileName = `${convertSingleCharToDoubleChar(title)}.${languages[language]}`;
-  const postName = `${getyymmdd('-')}-백준${problemId}.md`;
+  const postName = `${getyymmdd('-')}-${thisStie}${problemId}.md`;
   // prettier-ignore-start
   // 포스트 내용
   const content = `---\n`
-    + `title: '[백준] ${problemId}번: ${title}(${language}/${languages[language]})' \n`
+    + `title: '[${thisStie}] ${problemId}번: ${title}(${language}/${languages[language]})' \n`
     + `date: ${parseDate(submissionTime)}\n`
-    + `categories: [알고리즘, 백준] \n`
+    + `categories: [${thisStie}, ${level}] \n`
     + `tags: [${category || ""}] \n`
     + `---\n\n`
     + `# [${level}] ${title} - ${problemId} \n\n`

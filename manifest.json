@@ -133,6 +133,7 @@
         "scripts/swexpertacademy/util.js",
         "scripts/swexpertacademy/parsing.js",
         "scripts/swexpertacademy/uploadfunctions.js",
+        "scripts/swexpertacademy/blog_mode.js",
         "scripts/swexpertacademy/swexpertacademy.js"
       ],
       "run_at": "document_idle"

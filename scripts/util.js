@@ -270,7 +270,6 @@ function getyymmdd(separator) {
 return `${year}${separator}${month >= 10 ? month : '0' + month}${separator}${date >= 10 ? date : '0' + date}`;
 }
 function parseDate(submissonTime) {
-  "2021년 5월 19일 16:26:22"
   return submissonTime.replace("년 ","-").replace("월 ","-").replace("일 ","-");
 }
 function getyyMMddhhmmss(separator) {

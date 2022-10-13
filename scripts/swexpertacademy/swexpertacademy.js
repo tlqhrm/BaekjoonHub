@@ -9,9 +9,22 @@ let loader;
 
 const currentUrl = window.location.href;
 
-// SWEA 연습 문제 주소임을 확인하고, 맞는 파서를 실행
-if (currentUrl.includes('/main/solvingProblem/solvingProblem.do') && document.querySelector('header > h1 > span').textContent === '모의 테스트') startLoader();
-else if (currentUrl.includes('/main/code/problem/problemSolver.do') && currentUrl.includes('extension=BaekjoonHub')) parseAndUpload();
+// 사이트 식별
+const thisStie = "SWEA";
+
+(async function() {
+  const isBlogMode = await getObjectFromLocalStorage('blog_mode');
+  console.log(isBlogMode);
+  // SWEA 연습 문제 주소임을 확인하고, 맞는 파서를 실행
+  if (currentUrl.includes('/main/solvingProblem/solvingProblem.do') && document.querySelector('header > h1 > span').textContent === '모의 테스트') {
+    if(isBlogMode === true) b_startLoader();
+    else startLoader();
+  }
+  else if (currentUrl.includes('/main/code/problem/problemSolver.do') && currentUrl.includes('extension=BaekjoonHub')) {
+    if(isBlogMode === true) b_parseAndUpload();
+    else parseAndUpload();
+  }
+})()
 
 function parseAndUpload() {
   //async wrapper
