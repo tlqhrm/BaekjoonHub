@@ -24,7 +24,6 @@ const username = findUsername();
   if (!isNull(username)) {
     if (['status', `user_id=${username}`, 'problem_id', 'from_mine=1'].every((key) => currentUrl.includes(key))) {
       //블로그모드이면 b_startLoader, 아니면 기존로직
-      console.log(isBlogMode)
       if(isBlogMode === true) b_startLoader();
       else startLoader();
     }

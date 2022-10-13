@@ -14,7 +14,6 @@ const thisStie = "SWEA";
 
 (async function() {
   const isBlogMode = await getObjectFromLocalStorage('blog_mode');
-  console.log(isBlogMode);
   // SWEA 연습 문제 주소임을 확인하고, 맞는 파서를 실행
   if (currentUrl.includes('/main/solvingProblem/solvingProblem.do') && document.querySelector('header > h1 > span').textContent === '모의 테스트') {
     if(isBlogMode === true) b_startLoader();
