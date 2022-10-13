@@ -109,6 +109,7 @@
         "scripts/programmers/util.js",
         "scripts/programmers/parsing.js",
         "scripts/programmers/uploadfunctions.js",
+        "scripts/programmers/blog_mode.js",
         "scripts/programmers/programmers.js"
       ],
       "run_at": "document_idle"

@@ -1,5 +1,5 @@
 // Set to true to enable console log
-const debug = true;
+const debug = false;
 
 /* 
   문제 제출 맞음 여부를 확인하는 함수
@@ -16,7 +16,7 @@ const username = findUsername();
 
 // 로컬에서 blog_mode 호출하기위해 async
 (async function() {
-  let isBlogMode = await getObjectFromLocalStorage('blog_mode');
+  const isBlogMode = await getObjectFromLocalStorage('blog_mode');
   
   if (!isNull(username)) {
     if (['status', `user_id=${username}`, 'problem_id', 'from_mine=1'].every((key) => currentUrl.includes(key))) {

@@ -91,7 +91,6 @@ function b_makeDetailMessageAndReadme(data) {
   const tagl = [];
   tags.forEach((tag) => tagl.push(`${categories[tag.key]}(${tag.key})`));
   const category = tagl.join(', ');
-
   const fileName = `${convertSingleCharToDoubleChar(title)}.${languages[language]}`;
   const postName = `${getyymmdd('-')}-백준${problemId}.md`;
   // prettier-ignore-start
@@ -150,7 +149,7 @@ async function b_uploadOneSolveProblemOnGit(bojData, cb) {
  * @param {string} postName - 업로드할 포스트 제목
  * @param {function} cb - 콜백 함수 (ex. 업로드 후 로딩 아이콘 처리 등)
  */
-async function b_upload(token, hook,sourceText , content, directory, filename, commitMessage,postName, cb) {
+async function b_upload(token, hook, sourceText, content, directory, filename, commitMessage,postName, cb) {
   /* 업로드 후 커밋 */
   const git = new GitHub(hook, token);
   const stats = await getStats();
@@ -169,8 +168,8 @@ async function b_upload(token, hook,sourceText , content, directory, filename, c
   await git.updateHead(ref, commitSHA);
 
   /* stats의 값을 갱신합니다. */
-  updateObjectDatafromPath(stats.submission, `${hook}/${post.path}`, post.sha);
   updateObjectDatafromPath(stats.submission, `${hook}/${source.path}`, source.sha);
+  updateObjectDatafromPath(stats.submission, `${hook}/${post.path}`, post.sha);
   await saveStats(stats);
   // 콜백 함수 실행
   if (typeof cb === 'function') cb();
@@ -186,30 +185,6 @@ async function b_versionUpdate() {
   if (debug) console.log('b_stats updated.', stats);
 }
 
-async function b_updateLocalStorageStats() {
-  const hook = await getHook();
-  const token = await getToken();
-  const git = new GitHub(hook, token);
-  const stats = await getStats();
-  const tree_items = [];
-  await git.getTree().then((tree) => {
-    tree.forEach((item) => {
-      //블로그모드시 전체blob이 아닌 _posts/백준 하위폴더만 저장
-      if ( (/^_posts\/백준/).test(item.path) && item.type === 'blob') {
-        tree_items.push(item);
-      }
-    });
-  });
-  const { submission } = stats;
-  tree_items.forEach((item) => {
-    updateObjectDatafromPath(submission, `${hook}/${item.path}`, item.sha);
-  });
-  const default_branch = await git.getDefaultBranchOnRepo();
-  stats.branches[hook] = default_branch;
-  await saveStats(stats);
-  if (debug) console.log('update stats', stats);
-  return stats;
-}
 
 
 function b_insertUploadAllButton() {
@@ -291,33 +266,4 @@ async function b_uploadAllSolvedProblem() {
   } catch (error) {
     if (debug) console.log('전체 코드 업로드 실패', error);
   }
-}
-
-
-
-
-
-
-
-//날짜 형식 호출
-function getyymmdd(separator) {
-  const nD= new Date();
-  const year = nD.getFullYear();
-  const month = nD.getMonth() + 1;
-  const date = nD.getDate();
-return `${year}${separator}${month >= 10 ? month : '0' + month}${separator}${date >= 10 ? date : '0' + date}`;
-}
-function parseDate(submissonTime) {
-  "2021년 5월 19일 16:26:22"
-  return submissonTime.replace("년 ","-").replace("월 ","-").replace("일 ","-");
-}
-function getyyMMddhhmmss(separator) {
-  const nD= new Date();
-  const year = nD.getFullYear();
-  const month = nD.getMonth() + 1;
-  const date = nD.getDate();
-  const hour = nD.getHours();
-  const minute = nD.getMinutes();
-  const second = nD.getSeconds();
-return `${year}${separator}${month >= 10 ? month : '0' + month}${separator}${date >= 10 ? date : '0' + date}${separator}${hour >= 10 ? hour : '0' + hour}:${minute >= 10 ? minute : '0' + minute}:${second >= 10 ? second : '0' + second}`;
 }

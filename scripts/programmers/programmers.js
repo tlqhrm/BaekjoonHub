@@ -10,8 +10,14 @@ let loader;
 const currentUrl = window.location.href;
 
 // 프로그래머스 연습 문제 주소임을 확인하고, 맞다면 로더를 실행
-if (currentUrl.includes('/learn/courses/30') && currentUrl.includes('lessons')) startLoader();
-
+// 블로그모드라면 b_startLoader, 아니면 기존로직
+(async function() {
+if (currentUrl.includes('/learn/courses/30') && currentUrl.includes('lessons')) {
+  const isBlogMode = await getObjectFromLocalStorage('blog_mode')
+  if(isBlogMode) b_startLoader();
+  else startLoader();
+} 
+})();
 function startLoader() {
   loader = setInterval(async () => {
     // 기능 Off시 작동하지 않도록 함

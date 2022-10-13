@@ -243,6 +243,32 @@ async function updateLocalStorageStats() {
   return stats;
 }
 
+/* 블로그모드에서 사용 */
+async function b_updateLocalStorageStats() {
+  const hook = await getHook();
+  const token = await getToken();
+  const git = new GitHub(hook, token);
+  const stats = await getStats();
+  const tree_items = [];
+  await git.getTree().then((tree) => {
+    tree.forEach((item) => {
+      //블로그모드시 전체blob이 아닌 _posts/백준|프로그래머스|SWEA 하위폴더만 저장
+      if ( (/^_posts\/백준|프로그래머스|SWEA/).test(item.path) && item.type === 'blob') {
+        tree_items.push(item);
+      }
+    });
+  });
+  const { submission } = stats;
+  tree_items.forEach((item) => {
+    updateObjectDatafromPath(submission, `${hook}/${item.path}`, item.sha);
+  });
+  const default_branch = await git.getDefaultBranchOnRepo();
+  stats.branches[hook] = default_branch;
+  await saveStats(stats);
+  if (debug) console.log('update stats', stats);
+  return stats;
+}
+
 /**
  * @deprecated
  * level과 관련된 경로를 지우는 임의의 함수 (문제 level이 변경되는 경우 중복된 업로드 파일이 생성됨을 방지하기 위한 목적)
